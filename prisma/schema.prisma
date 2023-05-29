@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol"]
@@ -8,43 +5,37 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
 
-model Stations {
-  fid        Int        @default(autoincrement())
-  id         Int        @id @default(autoincrement())
-  nimi       String     @unique
-  namn       String     @unique
-  name       String     @unique
-  osoite     String     @unique
-  address    String     @unique
-  kaupunki   String
-  stad       String
-  operator   String
-  kapasiteet Int
-  x          Float
-  y          Float
-  departure  Journeys[] @relation("departure")
-  return     Journeys[] @relation("return")
-
-  @@unique([id, nimi])
+model journeys {
+  id                                               Int       @id @default(autoincrement())
+  departure                                        DateTime? @db.Timestamp(6)
+  return                                           DateTime? @db.Timestamp(6)
+  departure_station_id                             Int?
+  departure_station_name                           String?
+  return_station_id                                Int?
+  return_station_name                              String?
+  covered_distance                                 Float?    @db.Real
+  duration                                         Int?
+  stations_journeys_departure_station_idTostations stations? @relation("journeys_departure_station_idTostations", fields: [departure_station_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stations_journeys_return_station_idTostations    stations? @relation("journeys_return_station_idTostations", fields: [return_station_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model Journeys {
-  id                     String   @id @default(uuid())
-  departure              DateTime
-  return                 DateTime
-  departure_station      Stations @relation("departure", fields: [departure_station_id, departure_station_name], references: [id, nimi])
-  departure_station_id   Int
-  departure_station_name String
-  return_station         Stations @relation("return", fields: [return_station_id, return_station_name], references: [id, nimi])
-  return_station_id      Int
-  return_station_name    String
-  covered_distance       Int
-  duration               Int
+model stations {
+  fid                                              Int        @unique @default(autoincrement())
+  id                                               Int        @id @default(autoincrement())
+  name_fin                                         String?
+  name_swe                                         String?
+  name_eng                                         String?
+  address_fin                                      String?
+  address_swe                                      String?
+  city_fin                                         String?
+  city_swe                                         String?
+  operator                                         String?
+  capacity                                         Int?
+  x_coord                                          Float?
+  y_coord                                          Float?
+  journeys_journeys_departure_station_idTostations journeys[] @relation("journeys_departure_station_idTostations")
+  journeys_journeys_return_station_idTostations    journeys[] @relation("journeys_return_station_idTostations")
 }
