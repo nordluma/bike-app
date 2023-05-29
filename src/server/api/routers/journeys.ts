@@ -6,7 +6,7 @@ export const journeyRouter = createTRPCRouter({
         const journeys = await ctx.prisma.journeys.findMany({
             take: 100,
             orderBy: [
-                { departure_station_name: "asc" }
+                { departure: "asc" }
             ]
         });
         return journeys;
