@@ -3,16 +3,26 @@ import Head from "next/head";
 import Link from "next/link";
 import { type RouterOutputs, api } from "~/utils/api";
 
+const convertToKM = (meters: number): number => {
+    if (meters === null) return 0;
+    return meters / 1000;
+}
+
+const secondsToMinutes = (seconds: number): number => {
+    if (seconds === null) return 0;
+    return Math.floor(seconds / 60);
+}
+
 type Journey = RouterOutputs["journeys"]["getAll"][number]
 const JourneyView = (props: Journey) => {
     return (
-        <div className="flex border-b border-slate-300">
-            <div className="flex flex-col">
-                <span className="text-2xl gap-2">{`${props.departure_station_name} - ${props.return_station_name}`}</span>
+        <div className="flex border-b  border-slate-300 h-16">
+            <div className="flex flex-col justify-center px-2">
+                <span className="text-2xl  gap-2">{`${props.departure_station_name} - ${props.return_station_name}`}</span>
             </div>
-            <div className="flex gap-2">
-                <span>{`Distance (m): ${props.covered_distance}`}</span>
-                <span>{`Duration (sec): ${props.duration}`}</span>
+            <div className="flex gap-2 items-center justify-center">
+                <span className="px-1">{`Distance: ${convertToKM(props.covered_distance)} Km`}</span>
+                <span className="px-1">{`Duration: ${secondsToMinutes(props.duration)} minutes`}</span>
             </div>
         </div>
     );
@@ -25,7 +35,7 @@ const Feed = () => {
     if (!data) return <div>Something went wrong</div>;
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col border justify-center">
             {data.map((journey) => (
                 <JourneyView key={journey.id} {...journey} />
             ))}
