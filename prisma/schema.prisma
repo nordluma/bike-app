@@ -10,16 +10,16 @@ datasource db {
 
 model journeys {
   id                                               Int       @id @default(autoincrement())
-  departure                                        DateTime? @db.Timestamp(6)
-  return                                           DateTime? @db.Timestamp(6)
-  departure_station_id                             Int?
-  departure_station_name                           String?
-  return_station_id                                Int?
-  return_station_name                              String?
-  covered_distance                                 Float?    @db.Real
-  duration                                         Int?
-  stations_journeys_departure_station_idTostations stations? @relation("journeys_departure_station_idTostations", fields: [departure_station_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stations_journeys_return_station_idTostations    stations? @relation("journeys_return_station_idTostations", fields: [return_station_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  departure                                        DateTime @db.Timestamp(6)
+  return                                           DateTime @db.Timestamp(6)
+  departure_station_id                             Int
+  departure_station_name                           String
+  return_station_id                                Int
+  return_station_name                              String
+  covered_distance                                 Float    @db.Real
+  duration                                         Int
+  stations_journeys_departure_station_idTostations stations @relation("journeys_departure_station_idTostations", fields: [departure_station_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stations_journeys_return_station_idTostations    stations @relation("journeys_return_station_idTostations", fields: [return_station_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model stations {
@@ -34,8 +34,8 @@ model stations {
   city_swe                                         String?
   operator                                         String?
   capacity                                         Int?
-  x_coord                                          Float?
-  y_coord                                          Float?
+  x_coord                                          Float
+  y_coord                                          Float
   journeys_journeys_departure_station_idTostations journeys[] @relation("journeys_departure_station_idTostations")
   journeys_journeys_return_station_idTostations    journeys[] @relation("journeys_return_station_idTostations")
 }
