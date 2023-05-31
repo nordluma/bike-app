@@ -29,7 +29,7 @@ const JourneyView = (props: Journey) => {
 }
 
 const Feed = () => {
-    const {data, isLoading: journeysLoading } = api.journeys.getAll.useQuery();
+    const { data, isLoading: journeysLoading } = api.journeys.getAll.useQuery();
 
     if (journeysLoading) return <div>Loading...</div>;
     if (!data) return <div>Something went wrong</div>;
@@ -67,6 +67,9 @@ const Home: NextPage = () => {
                 <div className="container flex flex-col gap-12 px-4 py-16 ">
                     <div className="items-center justify-center">
                         <h2 className="text-lg font-bold">Journeys</h2>
+                    </div>
+                    <div className="flex flex-col">
+                        <Link href="/stations">Stations</Link>
                     </div>
                     <div>
                         <Feed />
