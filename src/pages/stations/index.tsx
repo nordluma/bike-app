@@ -7,7 +7,7 @@ type Station = RouterOutputs["stations"]["getAll"][number];
 const StationView = (props: Station) => {
     return (
         <li>
-            <div className="flex border-b border-slate-300 gap-4">
+            <div className="flex border-b border-slate-300 text-center gap-4">
                 <Link href={`/stations/${props.id}`}>
                     <h2 className="px-4">{props.name_fin}</h2>
                 </Link>
@@ -23,7 +23,7 @@ const StationList = () => {
     if (!data) return <div>Something went wrong</div>;
 
     return (
-        <div className="flex flex-col border justify-center rounded bg-sky-600">
+        <div className="flex flex-col border rounded bg-sky-600">
             <ul>
                 {data.map((station) => (
                     <StationView key={station.id} {...station} />
@@ -45,15 +45,15 @@ const Stations: NextPage = () => {
             </Head>
             <main className="flex min-h-screen flex-col bg-slate-200">
                 <Link
-                    className="border border-slate-400 text-slate-300 px-2 py-1
-                    rounded hover:bg-slate-400 focus-within:bg-slate-700 outline-none"
+                    className="bg-sky-200 border border-sky-400 text-sky-300 px-2 py-1
+                    rounded hover:bg-sky-700 focus-within:bg-sky-700 outline-none"
                     href=".."
                 >
                     Home
                 </Link>
-                <div className="h-20 py-4 mb-2">
+                <div className="h-20 py-4 mb-2 justify-center">
                     <h1>Stations</h1>
-                    <div className="container flex flex-col justify-center">
+                    <div className="container flex flex-col">
                         <StationList />
                     </div>
                 </div>
